@@ -13,8 +13,31 @@
 */
 
 mas versionAE {
+    /*
+    agent alice : maxBidder.asl
+    agent bob : maxBidder.asl
+    agent carol : randomBidder.asl
+    agent daisy : randomBidder.asl
+    agent ethan : randomBidder.asl
+    agent felix : randomBidder.asl
+    agent george : randomBidder.asl
+    agent hannah : randomBidder.asl
+    agent ivy : minBidder.asl
+    agent john : minBidder.asl */
 
-    agent sample_agent
+    agent maxBidder {
+        instances: 2
+    }
+
+    agent minBidder {
+        instances: 2
+    }
+
+    agent randomBidder {
+        instances: 10
+    }
+
+    agent auctioneer
 
     
 

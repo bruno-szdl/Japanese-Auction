@@ -2,7 +2,7 @@
    Project versionA
 
    Gradle build file for JaCaMo Applications
-   Abril 12, 2021 - 16:36:37
+   April 13, 2021 - 20:44:41
 */
 
 defaultTasks 'run'
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jacamo', name: 'jacamo', version: '0.9'
+    compile group: 'org.jacamo', name: 'jacamo', version: '1.0'
 }
 
 sourceSets {

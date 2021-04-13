@@ -1,5 +1,5 @@
 /*
-    versionA
+    versionAE
     ---------------------------
 
     JaCaMo Application File
@@ -9,11 +9,11 @@
     (see jacamo/doc/jcm.html for more information about what can be defined in this file)
 
     JaCaMo 0.9
-    Abril 12, 2021 - 16:36:37
+    Abril 12, 2021 - 16:36:42
 */
 
 mas versionA {
-
+    /*
     agent alice : maxBidder.asl
     agent bob : maxBidder.asl
     agent carol : randomBidder.asl
@@ -23,7 +23,19 @@ mas versionA {
     agent george : randomBidder.asl
     agent hannah : randomBidder.asl
     agent ivy : minBidder.asl
-    agent john : minBidder.asl
+    agent john : minBidder.asl */
+
+    agent maxBidder {
+        instances: 2
+    }
+
+    agent minBidder {
+        instances: 2
+    }
+
+    agent randomBidder {
+        instances: 10
+    }
 
     agent auctioneer
 
