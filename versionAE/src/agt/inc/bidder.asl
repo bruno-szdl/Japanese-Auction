@@ -43,7 +43,9 @@ maxBid(0).
      !chooseGoods.
 
 +!chooseGoods 
-  <- .findall(X, wantToBuy(X, _), L);
+  <- //+wantToBuy("good1", 100);
+     //+wantToBuy("good2", 200); 
+    .findall(X, wantToBuy(X, _), L);
      .print("I want to buy ", L);
      .abolish(goods(_,_));
      +goodsList(L);
@@ -66,7 +68,8 @@ maxBid(0).
     money(M) & 
     I < M 
   <- !getMaxBid(G, I);
-     joinWorkspace("/main/auction_room", AuctionRoomId);
+     .concat("/main/auction_room_", G, RoomName);
+     joinWorkspace(RoomName, AuctionRoomId);
      .print("Joined auction's room");
      lookupArtifact(G, GId);
      focus(GId);
@@ -94,7 +97,8 @@ maxBid(0).
      +didNotBuy(G)
      stopFocus(GId);
      -+nFailures(F+1);
-     ?joinedWsp(A,_,_);
+     .concat("/main/auction_room_", G, RoomName);
+     ?joinedWsp(A,_,RoomName);
      quitWorkspace(A).
 
 +raisedPrice [artifact_id(GId)]
@@ -109,7 +113,8 @@ maxBid(0).
      +didNotBuy(G)
      stopFocus(GId);
      -+nFailures(F+1);
-     ?joinedWsp(A,_,_);
+     .concat("/main/auction_room_", G, RoomName);
+     ?joinedWsp(A,_,RoomName);
      quitWorkspace(A).
 
 +raisedPrice [artifact_id(GId)].
@@ -124,11 +129,13 @@ maxBid(0).
      .print("Now I have ", M-P, "$.");
      .my_name(N);
       sold2(N) [artifact_id(GId)];
+      +bought(G, P);
      -+nSucesses(S+1);
      -wantToBuy(G, _);
       stopFocus(GId);
-    .print("Leaving the room");
-     ?joinedWsp(A,_,_);
+     .print("Leaving the room");
+     .concat("/main/auction_room_", G, RoomName);
+     ?joinedWsp(A,_,RoomName);
      quitWorkspace(A).
     
 

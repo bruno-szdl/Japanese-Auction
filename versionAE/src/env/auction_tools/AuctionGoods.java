@@ -36,7 +36,7 @@ public class AuctionGoods extends Artifact {
 	@OPERATION
 	void raisePrice() {
 		ObsProperty p = getObsProperty("price");
-		p.updateValue(p.intValue()+50);
+		p.updateValue(p.intValue()+100);
 		signal("raisedPrice");
 	}
 

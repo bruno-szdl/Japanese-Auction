@@ -30,8 +30,6 @@ mas versionAE {
 
     workspace auction_wsp {}
 
-    workspace auction_room {}
-
     asl-path: src/agt, src/agt/inc
 
 }
