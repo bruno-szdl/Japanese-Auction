@@ -13,17 +13,8 @@
 */
 
 mas versionAEO {
-    /*
-    agent alice : maxBidder.asl
-    agent bob : maxBidder.asl
-    agent carol : randomBidder.asl
-    agent daisy : randomBidder.asl
-    agent ethan : randomBidder.asl
-    agent felix : randomBidder.asl
-    agent george : randomBidder.asl
-    agent hannah : randomBidder.asl
-    agent ivy : minBidder.asl
-    agent john : minBidder.asl */
+
+    agent auctioneer
 
     agent maxBidder {
         instances: 2
@@ -37,9 +28,7 @@ mas versionAEO {
         instances: 10
     }
 
-    agent auctioneer
-
+    asl-path: src/agt, src/agt/inc
     
-
 }
 
