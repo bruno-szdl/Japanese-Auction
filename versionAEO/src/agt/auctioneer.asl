@@ -18,6 +18,9 @@
        .print("Joining workspace auction_wsp...");
        joinWorkspace(auction_wsp, AuctionWspId);
 
+       makeArtifact("screen", "auction_tools.AuctionScreen", [], ScreenId) [wid(AuctionWSPId)];
+       focus(ScreenId) [wid(AuctionWspId)];
+
        .print("Creating auction_org...");
        makeArtifact(org1, "ora4mas.nopl.OrgBoard", ["src/org/auction-os.xml"], OrgArtId)[wid(AuctionWspId)];
        
@@ -39,55 +42,60 @@
        .print("Waiting group to be formed...");
        .wait(formationStatus(ok)[artifact_id(GrArtId)]);
 
+       !create_scheme;
+       .
+
++!create_scheme
+    : .findall(X, goods(X, _), GoodsList) &
+       GoodsList \== []
+    <- .wait(100);
+       .nth(0, GoodsList, G);
+       ?goods(G, P);
+        +currentAuction(G, P);
+       .concat("scheme_for_", G, SchemeName); 
        .print("Creating scheme...");
-       createScheme(scheme1, auction_scheme, SchArtId)[artifact_id(OrgArtId)];
+       createScheme(SchemeName, auction_scheme, SchArtId)[artifact_id(OrgArtId)];
        
        .print("Adding scheme...");
-       addScheme(scheme1)[artifact_id(GrArtId)];
+       addScheme(SchemeName)[artifact_id(GrArtId)];
        
        .print("Focusing in scheme...");
        focus(SchArtId)[wid(AuctionWspId)];
        .
 
++!create_scheme
+    <- .print("");
+       .print("");
+       .print("------- All goods have been auctioned off -------");
+       .
+
 +!create_auction_room
-    <- .wait(100);
+    : currentAuction(G, P)
+    <- .print("test create auction room");
 
-       .findall(X, goods(X, _), GoodsList);
-       .nth(0, GoodsList, G);
-       ?goods(G, P);
-
-        .concat("/main/auction_room_", G, RoomName);
-        .print("Creating ", RoomName, "...");
+       .concat("/main/auction_room_", G, RoomName);
         createWorkspace(RoomName);
-        
-        .print("Joining auction room...");
         joinWorkspace(RoomName, AuctionRoomId);
+        .print("Joined auction room");
 
-        ?joinedWsp(AuctionWspId,_,"/main/auction_wsp");
-        .print("Changing screen status to ", G, "...");
-        setStatus(G) [wid(AuctionWspId), artifact_id(ScreenId)];
-
-        .print("Creating artifact ", G, "...");
+        setStatus(G) [wid(AuctionWSPId), artifact_id(ScreenId)];
         makeArtifact(G, "auction_tools.AuctionGoods", [], GId)[wid(AuctionRoomId)];
+        +currentGood(G, GId);
         focus(GId) [wid(AuctionRoomId)];
         setGood(G, P) [artifact_id(GId)];
 
        .print("Auction for ", G, " started!");
        .print(G, "'s value is now ", P, "!");
-       .wait(10)
        .
 
 +!do_auction
-    <- .print("Test do_auction");
+    : currentGood(G, GId)
+    <- !checkParticipants(G, GId);
     .
 
 +!finish_auction
-    <- .print("Test finish_auction");
+    <- !create_scheme;
     .
-/*
-+!startAuctions
-    <- .print("All auctions have finished");
-       setStatus("finished") [wid(AuctionWspId), artifact_id(ScreenId)].
 
 +!checkParticipants(G, GId)
     : bidders(B)[artifact_id(GId)] &
@@ -103,9 +111,11 @@
        stopFocus(GId);
        -goods(G, _);
        .concat("/main/auction_room_", G, RoomName);
+       -currentGood(G, _);
+       -currentAuction(G, _);
        ?joinedWsp(A,_,RoomName);
        quitWorkspace(A);
-       !startAuctions.
+       .
 
 
 +!checkParticipants(G, GId)
@@ -126,8 +136,8 @@
        stopFocus(GId);
        -goods(G, P);
        .concat("/main/auction_room_", G, RoomName);
+       -currentGood(G, _);
+       -currentAuction(G, _);
        ?joinedWsp(A,_,RoomName);
        quitWorkspace(A);
-       !startAuctions.
-
-*/
+       .

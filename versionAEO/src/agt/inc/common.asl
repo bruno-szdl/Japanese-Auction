@@ -1,5 +1,7 @@
 // Agent sample_agent in project versionA
 { include("$moiseJar/asl/org-obedient.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$jacamoJar/templates/common-cartago.asl") }
 
 
 /* Initial beliefs and rules */
@@ -23,4 +25,5 @@ goods("good10", 1000).
 
 
 +permission(Ag, MCond, committed(Ag, Mission, Scheme), Deadline) : .my_name(Ag)
-<- commitMission(Mission)[artifact_name(Scheme)].
+<-  ?focusing(ArtId,Scheme,_,_,_,_)
+    commitMission(Mission)[artifact_id(ArtId)].
