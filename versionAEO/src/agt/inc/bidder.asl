@@ -95,7 +95,7 @@ maxBid(0).
      -counter(_).
 
      
-+raisedPrice [artifact_id(GId)]
++!stay_or_leave
   : maxBid(M) &
     price(P) [artifact_id(GId)] &
     M < P &
@@ -111,11 +111,11 @@ maxBid(0).
      ?joinedWsp(A,_,RoomName);
      quitWorkspace(A).
 
-+raisedPrice [artifact_id(GId)]
++!stay_or_leave
   : money(M) &
     price(P) [artifact_id(GId)] &
     M < P &
-    nFailures(F)
+    nFailures(F) 
   <- .print("Money is less than new price. I am leaving the room");
      removeBidder [artifact_id(GId)];
      ?name(G);
@@ -127,7 +127,7 @@ maxBid(0).
      ?joinedWsp(A,_,RoomName);
      quitWorkspace(A).
 
-+raisedPrice [artifact_id(GId)].
++!stay_or_leave.
 
 +sold [artifact_id(GId)]
   : money(M) &
@@ -146,4 +146,5 @@ maxBid(0).
      .print("Leaving the room");
      .concat("/main/auction_room_", G, RoomName);
      ?joinedWsp(A,_,RoomName);
-     quitWorkspace(A).
+     quitWorkspace(A);
+     .

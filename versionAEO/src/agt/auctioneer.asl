@@ -88,26 +88,43 @@
        .print(G, "'s value is now ", P, "!");
        .
 
-+!do_auction
-    : currentGood(G, GId)
-    <- !checkParticipants(G, GId);
-    .
-
 +!finish_auction
     <- !create_scheme;
     .
 
-+!checkParticipants(G, GId)
-    : bidders(B)[artifact_id(GId)] &
++!check_participants
+    : currentGood(G, GId) &
+      bidders(B)[artifact_id(GId)]
+    <- .print(B, " participants for ", G);
+       .
+
++!do_auction.
+
++!reset
+    : currentGood(G, GId) &
+      bidders(B)[artifact_id(GId)] &
       B > 1
-    <- .wait(100);
-       !raisePrice(G, GId).
+    <- resetGoal(check_participants)[artifact_id(SchArtId)].
 
++!reset.
 
-+!checkParticipants(G, GId)
-    : bidders(B)[artifact_id(GId)] &
++!increase_price
+    : currentGood(G, GId) &
+      bidders(B)[artifact_id(GId)] &
+      B > 1
+    <- raisePrice [artifact_id(GId)];
+      ?price(P);
+      .print(G, "'s value is now ", P, "!");
+     .
+
++!increase_price.
+
++!announce_winner
+    : currentGood(G, GId) &
+      bidders(B)[artifact_id(GId)] &
       B == 1
     <- sold [artifact_id(GId)];
+       .print(G, " sold");
        stopFocus(GId);
        -goods(G, _);
        .concat("/main/auction_room_", G, RoomName);
@@ -116,21 +133,12 @@
        ?joinedWsp(A,_,RoomName);
        quitWorkspace(A);
        .
++!announce_winner.
 
-
-+!checkParticipants(G, GId)
-    <- !annouceNoBidder(G, GId).
-
-
-+!raisePrice(G, GId)
-    <- raisePrice [artifact_id(GId)];
-       ?price(P);
-      .print(G, "'s value is now ", P, "!");
-      !checkParticipants(G, GId).
-
-
-+!annouceNoBidder(G, GId)
-    : goods(G, P)
++!announce_no_winner
+    : currentGood(G, GId) &
+      bidders(B)[artifact_id(GId)] &
+      B == 0
     <- .print("No bidder for ", G, " for ", P, "$!");
        notSold [artifact_id(GId)];
        stopFocus(GId);
@@ -141,3 +149,5 @@
        ?joinedWsp(A,_,RoomName);
        quitWorkspace(A);
        .
+
++!announce_no_winner.

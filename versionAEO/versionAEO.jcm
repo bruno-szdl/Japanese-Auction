@@ -17,15 +17,15 @@ mas versionAEO {
     agent auctioneer
 
     agent maxBidder {
-        instances: 2
+        instances: 1
     }
 
     agent minBidder {
-        instances: 2
+        instances: 1
     }
 
     agent randomBidder {
-        instances: 10
+        instances: 1
     }
 
     asl-path: src/agt, src/agt/inc

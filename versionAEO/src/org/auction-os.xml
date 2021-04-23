@@ -33,17 +33,27 @@
             <plan operator="sequence">
                 <goal id="create_auction_room"/>
                 <goal id="join_room"/>
-                <goal id="do_auction"/>
+                <goal id="check_participants"/>
+                <goal id="increase_price"/>
+                <goal id="stay_or_leave"/>
+                <goal id="reset"/>
+                <goal id="announce_no_winner"/>
+                <goal id="announce_winner"/>
             </plan>
         </goal>
 
         <mission id="mAuctioneer" min="1" max="1">
             <goal id="finish_auction"/>
             <goal id="create_auction_room"/>
-            <goal id="do_auction"/>
+            <goal id="check_participants"/>
+            <goal id="reset"/>
+            <goal id="increase_price"/>
+            <goal id="announce_winner"/>
+            <goal id="announce_no_winner"/>
         </mission>
-        <mission id="mParticipant" min="1" >
-            <goal id="join_room" />
+        <mission id="mParticipant" min="1">
+            <goal id="join_room"/>
+            <goal id="stay_or_leave"/>
         </mission>
     </scheme>
 </functional-specification>
