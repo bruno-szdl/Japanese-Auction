@@ -33,12 +33,13 @@
        .print("Auction for ", G, " started!");
        .print(G, "'s value is now ", P, "!");
        .wait(100);
-       startAuction [wid(AuctionRoomId)];
+       checkParticipants [artifact_id(GId)];
        .
 
 +!createAuction
     <- .print("All auctions have finished");
-       setStatus("finished") [wid(AuctionWSPId), artifact_id(ScreenId)].
+       setStatus("finished") [wid(AuctionWSPId), artifact_id(ScreenId)];
+       .
 
 +raisedPrice [artifact_id(GId)]
     <- .wait(10);

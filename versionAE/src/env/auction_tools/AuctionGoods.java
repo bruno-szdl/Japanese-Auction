@@ -22,11 +22,6 @@ public class AuctionGoods extends Artifact {
 	}
 
 	@OPERATION
-	void startAuction() {
-		checkParticipants();
-	}	
-
-	@OPERATION
 	void checkParticipants() {
 		ObsProperty g = getObsProperty("name");
 		ObsProperty b = getObsProperty("bidders");
