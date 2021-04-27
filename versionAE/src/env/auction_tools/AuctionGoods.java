@@ -51,7 +51,7 @@ public class AuctionGoods extends Artifact {
 	void removeBidder() {
 		ObsProperty b = getObsProperty("bidders");
 		b.updateValue(b.intValue()-1);
-		System.out.printf(" Adding one bidder. Total: %s\n", b);
+		System.out.printf(" Removing one bidder. Total: %s\n", b);
 	}
 
 	@OPERATION
