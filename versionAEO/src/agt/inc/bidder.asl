@@ -33,32 +33,27 @@ maxBid(0).
     focus(GrArtId)[wid(WspId)];
     .
 
-+!join_room
-  : screenStatus(G) &
-    wantToBuy(G, I) &
++screenStatus(G)[artifact_id(ScreenId)]
+  : wantToBuy(G, I) &
     money(M) & 
     I < M 
   <- !getMaxBid(G, I);
-    .concat("/main/auction_room_", G, RoomName);
-    joinWorkspace(RoomName, AuctionRoomId);
-    .print("I want to buy this good and I have money for the minimum price");
-    .print("Joined auction's room");
-    lookupArtifact(G, GId);
-    focus(GId);
-    addBidder [artifact_id(GId)];
-    .print("Focused ", G);
-    .
-  
-+!join_room
-  :  screenStatus(G) &
-      wantToBuy(G, _)
-  <- .print("I want to buy this good but I don't have money for the minimum price");
-    -wantToBuy(G, _);
-    +didNotBuy(G);
-    -+nFailures(F+1);
-    .
+     .concat("/main/auction_room_", G, RoomName);
+     joinWorkspace(RoomName, AuctionRoomId);
+     .print("Joined auction's room");
+     lookupArtifact(G, GId);
+     focus(GId);
+     addBidder [artifact_id(GId)];
+     .print("Focused ", G).
 
-+!join_room <- .print("I don't want to buy this good.").
++screenStatus(G)[artifact_id(ScreenId)]
+  : wantToBuy(G, _)
+  <- .print("I don't have enough money for ", G, ".");
+     -wantToBuy(G, _);
+     +didNotBuy(G);
+     -+nFailures(F+1).
+
++screenStatus(G)[artifact_id(ScreenId)].
     
 +!getMoney
   : .random(R)

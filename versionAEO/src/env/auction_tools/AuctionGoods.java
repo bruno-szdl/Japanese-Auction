@@ -22,21 +22,46 @@ public class AuctionGoods extends Artifact {
 	}
 
 	@OPERATION
+	void checkParticipants() {
+		ObsProperty g = getObsProperty("name");
+		ObsProperty b = getObsProperty("bidders");
+		if (b.intValue() == 0){
+			notSold();
+			System.out.printf(" There is no bidder left, %s was not sold\n", g);
+		}
+		else if (b.intValue() == 1){
+			sold();
+			System.out.printf(" There is only one bidder left, selling %s\n", g);
+		}
+		else{
+			raisePrice();
+			System.out.printf(" There are %s bidders, raising price\n", b);
+
+		}
+	}	
+
+	@OPERATION
 	void addBidder() {
 		ObsProperty b = getObsProperty("bidders");
 		b.updateValue(b.intValue()+1);
+		System.out.printf(" Adding one bidder. Total: %s\n", b);
 	}
 
 	@OPERATION
 	void removeBidder() {
 		ObsProperty b = getObsProperty("bidders");
 		b.updateValue(b.intValue()-1);
+		System.out.printf(" Removing one bidder. Total: %s\n", b);
 	}
 
 	@OPERATION
 	void raisePrice() {
+		ObsProperty g = getObsProperty("name");
 		ObsProperty p = getObsProperty("price");
+		ObsProperty b = getObsProperty("bidders");
 		p.updateValue(p.intValue()+100);
+		System.out.printf(" %s's value is now %s with %s bidder(s)!\n", g, p, b);
+		signal("raisedPrice");
 	}
 
 	@OPERATION
